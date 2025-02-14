@@ -1,3 +1,5 @@
+const { createApp, defineComponent, reactive } = Vue;
+
 // Sample data
 const server_data = {
     collection: {
@@ -61,7 +63,7 @@ const ItemData = defineComponent({
             <p>{{ item.data.find(d => d.name === 'description').value }}</p>
             <p><strong>Director:</strong> {{ item.data.find(d => d.name === 'director').value }}</p>
             <p><strong>Release Date:</strong> {{ item.data.find(d => d.name === 'datePublished').value }}</p>
-            <a :href="item.href" target="_blank">More Info</a>
+            <a :href="item.href" target="_blank" class="btn btn-primary">More Info</a>
         </div>
     `
 });
