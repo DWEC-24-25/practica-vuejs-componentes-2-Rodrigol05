@@ -57,13 +57,30 @@ const ItemData = defineComponent({
             required: true
         }
     },
+    data() {
+        return {
+          editando: false
+        };
+      },
+      methods: {
+        toggleEditFormVisibility() {
+          this.editando = !this.editando;
+        }
+    },
     template: `
         <div>
-            <h3>{{ item.data.find(d => d.name === 'name').value }}</h3>
-            <p>{{ item.data.find(d => d.name === 'description').value }}</p>
-            <p><strong>Director:</strong> {{ item.data.find(d => d.name === 'director').value }}</p>
-            <p><strong>Release Date:</strong> {{ item.data.find(d => d.name === 'datePublished').value }}</p>
-            <a :href="item.href" target="_blank" class="btn btn-primary">More Info</a>
+            <div v-if="!editando">
+                <h3>{{ item.data.find(d => d.name === 'name').value }}</h3>
+                <p>{{ item.data.find(d => d.name === 'description').value }}</p>
+                <p><strong>Director:</strong> {{ item.data.find(d => d.name === 'director').value }}</p>
+                <p><strong>Release Date:</strong> {{ item.data.find(d => d.name === 'datePublished').value }}</p>
+                <a :href="item.href" target="_blank" class="btn btn-primary">Ver</a>
+                <button @click="toggleEditFormVisibility" class="btn btn-secondary ms-1">Editar</button>
+            </div>
+
+            <div v-else>
+                <p>Editando</p>
+            </div>
         </div>
     `
 });
