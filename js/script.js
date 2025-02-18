@@ -41,11 +41,17 @@ const server_data = {
 
 // Componente edit-form
 const EditForm = defineComponent({
+    props: ['itemdata'],
     template: `
         <div>
             <h2>Edit Form</h2>
             <form>
-            
+                <div v-for="item in itemdata" class="mb-3">
+                    <label>{{ item.prompt }}</label>
+                    <textarea v-if="item.prompt === 'Description'" v-model="item.value" class="form-control"></textarea>
+                    <input v-else v-model="item.value" type="text" class="form-control"/>
+                </div>
+                <button @click="$emit('formClosed')" class="btn btn-secondary mt-2">Cerrar</button>
             </form>
         </div>
     `
@@ -81,7 +87,7 @@ const ItemData = defineComponent({
             </div>
 
             <div v-else>
-                <edit-form :itemdata="item.data" :index="index" @formClosed="toggleEditFormVisibility"/>
+                <edit-form :itemdata="item.data" @formClosed="toggleEditFormVisibility"/>
             </div>
         </div>
     `
