@@ -78,10 +78,10 @@ const ItemData = defineComponent({
     template: `
         <div>
             <div v-if="!editando">
-                <h3>{{ item.data.find(d => d.name === 'name').value }}</h3>
-                <p>{{ item.data.find(d => d.name === 'description').value }}</p>
-                <p><strong>Director:</strong> {{ item.data.find(d => d.name === 'director').value }}</p>
-                <p><strong>Release Date:</strong> {{ item.data.find(d => d.name === 'datePublished').value }}</p>
+                <p><strong>{{ item.data.find(d => d.name === 'name').prompt }}</strong> <br> {{ item.data.find(d => d.name === 'name').value }}</p>
+                <p><strong>{{ item.data.find(d => d.name === 'description').prompt }}</strong> <br> {{ item.data.find(d => d.name === 'description').value }}</p>
+                <p><strong>{{ item.data.find(d => d.name === 'director').prompt }}</strong> <br> {{ item.data.find(d => d.name === 'director').value }}</p>
+                <p><strong>{{ item.data.find(d => d.name === 'datePublished').prompt }}</strong> <br> {{ item.data.find(d => d.name === 'datePublished').value }}</p>
                 <a :href="item.href" target="_blank" class="btn btn-primary">Ver</a>
                 <button @click="toggleEditFormVisibility" class="btn btn-secondary ms-1">Editar</button>
             </div>
