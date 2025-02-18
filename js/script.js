@@ -44,7 +44,9 @@ const EditForm = defineComponent({
     template: `
         <div>
             <h2>Edit Form</h2>
-            <!-- Aquí iría el formulario de edición -->
+            <form>
+            
+            </form>
         </div>
     `
 });
@@ -79,7 +81,7 @@ const ItemData = defineComponent({
             </div>
 
             <div v-else>
-                <p>Editando</p>
+                <edit-form :itemdata="item.data" :index="index" @formClosed="toggleEditFormVisibility"/>
             </div>
         </div>
     `
