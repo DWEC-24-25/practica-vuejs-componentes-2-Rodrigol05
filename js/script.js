@@ -1,3 +1,5 @@
+const { createApp, defineComponent, reactive } = Vue;
+
 // Sample data
 const server_data = {
     collection: {
@@ -39,10 +41,18 @@ const server_data = {
 
 // Componente edit-form
 const EditForm = defineComponent({
+    props: ['itemdata'],
     template: `
         <div>
             <h2>Edit Form</h2>
-            <!-- Aquí iría el formulario de edición -->
+            <form>
+                <div v-for="item in itemdata" class="mb-3">
+                    <label>{{ item.prompt }}</label>
+                    <textarea v-if="item.prompt === 'Description'" v-model="item.value" class="form-control"></textarea>
+                    <input v-else v-model="item.value" type="text" class="form-control"/>
+                </div>
+                <button @click="$emit('formClosed')" class="btn btn-secondary mt-2">Cerrar</button>
+            </form>
         </div>
     `
 });
@@ -55,13 +65,30 @@ const ItemData = defineComponent({
             required: true
         }
     },
+    data() {
+        return {
+          editando: false
+        };
+      },
+      methods: {
+        toggleEditFormVisibility() {
+          this.editando = !this.editando;
+        }
+    },
     template: `
         <div>
-            <h3>{{ item.data.find(d => d.name === 'name').value }}</h3>
-            <p>{{ item.data.find(d => d.name === 'description').value }}</p>
-            <p><strong>Director:</strong> {{ item.data.find(d => d.name === 'director').value }}</p>
-            <p><strong>Release Date:</strong> {{ item.data.find(d => d.name === 'datePublished').value }}</p>
-            <a :href="item.href" target="_blank">More Info</a>
+            <div v-if="!editando">
+                <p><strong>{{ item.data.find(d => d.name === 'name').prompt }}</strong> <br> {{ item.data.find(d => d.name === 'name').value }}</p>
+                <p><strong>{{ item.data.find(d => d.name === 'description').prompt }}</strong> <br> {{ item.data.find(d => d.name === 'description').value }}</p>
+                <p><strong>{{ item.data.find(d => d.name === 'director').prompt }}</strong> <br> {{ item.data.find(d => d.name === 'director').value }}</p>
+                <p><strong>{{ item.data.find(d => d.name === 'datePublished').prompt }}</strong> <br> {{ item.data.find(d => d.name === 'datePublished').value }}</p>
+                <a :href="item.href" target="_blank" class="btn btn-primary">Ver</a>
+                <button @click="toggleEditFormVisibility" class="btn btn-secondary ms-1">Editar</button>
+            </div>
+
+            <div v-else>
+                <edit-form :itemdata="item.data" @formClosed="toggleEditFormVisibility"/>
+            </div>
         </div>
     `
 });
